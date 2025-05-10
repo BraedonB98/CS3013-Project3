@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 class MainActivity : AppCompatActivity() {
-    //val movieList: MutableList<Movie?> = ArrayList<Movie?>()
-    //val movieAdapter = MovieAdapter(movieList as MutableList<Movie>)
+    val movieList: MutableList<Movie?> = ArrayList<Movie?>()
+    val movieAdapter = MovieAdapter(movieList as MutableList<Movie>)
     private val startForResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ activityResult ->
             val data = activityResult.data
@@ -23,9 +23,9 @@ class MainActivity : AppCompatActivity() {
             val genre = data?.getStringExtra("genre") ?: ""
             val year = data?.getStringExtra("year") ?: ""
             val rating = data?.getStringExtra("rating") ?: ""
-            //movieList.add(Movie(title,genre,year,rating))
+            movieList.add(Movie(title,genre,year,rating))
             Log.d("RECYCLE", "MAIN ===== TITLE $title ================")
-            //movieAdapter.notifyDataSetChanged()
+            movieAdapter.notifyDataSetChanged()
         }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +36,25 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        movieList.add(Movie("Title1", "SPOOKY!", "1919", "1"))
+        movieList.add(Movie("Title2", "Comedy", "1929", "2"))
+        movieList.add(Movie("Title3", "Romance", "1939", "3"))
+        movieList.add(Movie("Title4", "Thriller", "1949", "4"))
+        movieList.add(Movie("Title5", "Action", "1959", "5"))
+
+
+        // three recyclerview lines below are main steps to
+        val recyclerView = findViewById<RecyclerView?>(R.id.recyclerView)
+        recyclerView.setLayoutManager(LinearLayoutManager(this))
+
+        // add lines below to allow swipe delete
+        val itemTouchHelper = ItemTouchHelper(movieAdapter.swipeToDeleteCallback)
+        itemTouchHelper.attachToRecyclerView(recyclerView)
+
+        recyclerView.setAdapter(movieAdapter)
+
+
     }
     fun startSecond(view : View){
         Log.d("MainActivity", "Add Movie button clicked")
