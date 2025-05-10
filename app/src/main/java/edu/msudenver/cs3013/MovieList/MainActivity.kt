@@ -16,6 +16,17 @@ import androidx.recyclerview.widget.RecyclerView
 class MainActivity : AppCompatActivity() {
     //val movieList: MutableList<Movie?> = ArrayList<Movie?>()
     //val movieAdapter = MovieAdapter(movieList as MutableList<Movie>)
+    private val startForResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ activityResult ->
+            val data = activityResult.data
+            val title = data?.getStringExtra("title")?:""
+            val genre = data?.getStringExtra("genre") ?: ""
+            val year = data?.getStringExtra("year") ?: ""
+            val rating = data?.getStringExtra("rating") ?: ""
+            //movieList.add(Movie(title,genre,year,rating))
+            Log.d("RECYCLE", "MAIN ===== TITLE $title ================")
+            //movieAdapter.notifyDataSetChanged()
+        }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -28,9 +39,7 @@ class MainActivity : AppCompatActivity() {
     }
     fun startSecond(view : View){
         Log.d("MainActivity", "Add Movie button clicked")
-        //!Need to be filled out, currently just filler to not crash
-        //val intent = Intent(this, SecondActivity::class.java)
-        //startActivity(intent)
+        startForResult.launch(Intent(this, AddMovieActivity::class.java))
     }
     fun saveList(view: View) {
         Log.d("MainActivity", "Save List button clicked")
