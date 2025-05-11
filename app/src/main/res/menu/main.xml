@@ -19,5 +19,5 @@
     <item
         android:id = "@+id/resetList"
         android:title = "Reset Movie List"
-        app:showAsAction = "never"/>
+        app:showAsAction = "always"/>
 </menu>
