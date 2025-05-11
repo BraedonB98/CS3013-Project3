@@ -68,8 +68,42 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.main_menu, menu)
+        menuInflater.inflate(R.menu.main, menu)
         return true
+    }
+    override fun onOptionsItemSelected(item:MenuItem):Boolean{
+        Log.d("MOVIELIST","options menu")
+            when(item.itemId){
+                R.id.ratingSort -> {
+                    Log.d("MOVIELIST","onOptions: rating sort")
+                    movieList?.sortBy{it?.rating}
+                    movieAdapter.notifyDataSetChanged()
+                }
+                R.id.yearSort -> {
+                    Log.d("MOVIELIST","onOptions: year sort")
+                    movieList?.sortBy{it?.year}
+                    movieAdapter.notifyDataSetChanged()
+                }
+                R.id.genreSort -> {
+                    Log.d("MOVIELIST","onOptions: genre sort")
+                    movieList?.sortBy{it?.genre}
+                    movieAdapter.notifyDataSetChanged()
+                }
+                R.id.resetList -> {
+                    Log.d("MOVIELIST","onOptions: reset movies")
+                    try {
+                        val file = File(myPlace + "/MOVIELIST.csv")
+                        if (file.exists()) {
+                            file.delete()
+                        }
+                        readFile() //load default(missing file)
+                    } catch (e: IOException) {
+                        Log.d("MOVIELIST", "Error resetting movie list: $e")
+                        e.printStackTrace()
+                    }
+                }
+            }
+        return super.onOptionsItemSelected(item)
     }
 
     fun startSecond(view : View){

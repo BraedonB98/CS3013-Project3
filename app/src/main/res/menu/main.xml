@@ -16,4 +16,8 @@
         android:id = "@+id/yearSort"
         android:title = "Sort by Year"
         app:showAsAction = "never"/>
+    <item
+        android:id = "@+id/resetList"
+        android:title = "Reset Movie List"
+        app:showAsAction = "never"/>
 </menu>
