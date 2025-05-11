@@ -12,10 +12,16 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import java.io.File
+import java.io.FileWriter
+import java.io.IOException
+import java.util.Scanner
 
 class MainActivity : AppCompatActivity() {
+    val fileDirectory = ""
     val movieList: MutableList<Movie?> = ArrayList<Movie?>()
     val movieAdapter = MovieAdapter(movieList as MutableList<Movie>)
+    var myPlace: String? = null
     private val startForResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ activityResult ->
             val data = activityResult.data
@@ -28,6 +34,7 @@ class MainActivity : AppCompatActivity() {
             movieAdapter.notifyDataSetChanged()
         }
     override fun onCreate(savedInstanceState: Bundle?) {
+        //Basic Setup Stuff
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
@@ -37,6 +44,15 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+        //File Stuff
+        //  FIND DIRECTORY TO WRITE LIST FILE
+        Log.d("PERSIST1", "CREATED - about TO GET FILE DIR >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+        val myDir = this.getFilesDir()
+        val myDirName = myDir.getAbsolutePath()
+        myPlace = myDirName
+        Log.d("PERSIST1", "My Dir Path = " + myDirName + " >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+
+        readFile()
         movieList.add(Movie("Title1", "SPOOKY!", "1919", "1"))
         movieList.add(Movie("Title2", "Comedy", "1929", "2"))
         movieList.add(Movie("Title3", "Romance", "1939", "3"))
