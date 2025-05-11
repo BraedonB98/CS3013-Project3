@@ -8,7 +8,10 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
-
+    <!-- Define Theme.MovieList -->
+    <style name="Theme.MovieList" parent="Base.Theme.MovieList">
+        <!-- Add any additional customizations here if needed -->
+    </style>
 
     <style name="Theme.MovieList.NoActionBar">
         <item name="windowActionBar">false</item>
